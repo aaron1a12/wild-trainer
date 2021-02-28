@@ -1,0 +1,192 @@
+<html><head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+<script src="js/jquery-3.5.1.js" type="text/javascript"></script>
+<script src="js/jquery.easing.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.easing.compatibility.js"></script>
+<script src="js/howler.min.js" type="text/javascript"></script>
+<script src="js/howler.spatial.min.js" type="text/javascript"></script>
+
+<link type="text/css" rel="stylesheet" href="css/style.css" />
+<script>
+	function print(msg, bIsPlayer) {
+		if(bIsPlayer)
+			$("#texts").append("<div class=\"bubble player\">"+msg+"</div>");
+		else
+			$("#texts").append("<div class=\"bubble\">"+msg+"</div>");
+	}
+</script>
+<style>
+
+</style>
+</head>
+
+<body>
+<div id="mainWindow" class="dialog">
+    <div id="texts" style="height:100%;overflow:hidden;">
+	</div>
+	
+	<div style="height:5px;"></div>
+	<button id="btnSell">Sell Drugs</button>
+	<button id="btnClose">Close Chat</button>
+</div>
+
+<div id="phone">
+	<div id="phoneScreen" onclick="console.log('screen clicked through!');">
+		<div id="lcdOverlay"></div>
+		<div id="blackOut"></div>
+		<div id="timeStatus">12:00 PM</div>
+		<div id="notificationContainer">
+			<div id="notification">
+				<img id="notificationIcon" src="img/icon-notify-generic.png">
+				<div id="notificationTextWrapper">
+					<span id="notificationTitle">System</span>
+					<span id="notificationSubtitle"></span>
+				</div>
+			</div>
+		</div>
+		<div id="phoneDesktopAppGrid">
+			<div class="app" onclick="App.Run('CameraApp')">
+				<img class="appIcon" src="img/app-camera.png">
+				<div class="appLabel">Camera</div>
+			</div>
+			<div class="app" onclick="App.Run('PhoneApp')">
+				<img class="appIcon" src="img/app-phone.png">
+				<div class="appLabel">Phone</div>
+			</div>
+			<div class="app" onclick="App.Run('Contacts')">
+				<img class="appIcon" src="img/app-contacts.png">
+				<div class="appLabel">Contacts</div>
+			</div>	
+			<div class="app" onclick="App.Run('CarsApp')">
+				<img class="appIcon" src="img/app-car.png">
+				<div class="appLabel">PDM Cars</div>
+			</div>
+			<div class="app" onclick="App.Run('PoliceApp')">
+				<img class="appIcon" src="img/app-police.png">
+				<div class="appLabel">Police app</div>
+			</div>			
+			<div class="app" onclick="App.Run('MorsMutualApp')">
+				<img class="appIcon" src="img/app-mors-mutual.png">
+				<div class="appLabel">Auto Insurance</div>
+			</div>
+			<div class="app" onclick="App.Run('WeazelNews')">
+				<img class="appIcon" src="img/app-weazel-news.jpg">
+				<div class="appLabel">Weazel News</div>
+			</div>			
+		</div>
+		<div id="phoneAppWorkspace">
+		</div>
+		<div id="phoneNavBtns">
+			<div onclick="GoBack();"></div>
+			<div onclick="GoHome();"></div>
+			<div onclick="GoRecent();"></div>
+		</div>
+	</div>
+</div>
+
+
+<!--<div id="skinEditor" class="dialog"></div>-->
+
+<!--<div class="notification"></div>-->
+
+<script src="js/android.js" type="text/javascript"></script>
+<script src="apps/app.camera.js" type="text/javascript"></script>
+<!--<script src="apps/app.phone.js" type="text/javascript"></script>-->
+<script src="apps/app.cars.js" type="text/javascript"></script>
+<script src="apps/app.mors.mutual.js" type="text/javascript"></script>
+<script src="apps/app.weazel.news.js" type="text/javascript"></script>
+<script src="apps/app.contacts.js" type="text/javascript"></script>
+<script src="js/nuke.js" type="text/javascript"></script>
+<script type="text/javascript">
+var sndScanner = new Howl({src: ['sounds/scanner.ogg'],volume: 0.05});
+
+$(function() {
+	
+	
+	/* open the UI for user */
+	window.addEventListener("keydown", event => {
+		if(event.keyCode==27) {
+			closePhone();
+		}else if(event.keyCode==13) {
+			openPhone();
+		}
+
+	});
+	
+	window.setInterval(function(){
+		if (!bIsPhoneOpen) {
+			return;
+		} else {
+			/*console.log("getting time....");
+			$.post('http://wild-trainer/PhoneUpdateTime', "{}", function(data){
+				//update time html
+				console.log("got it!");
+				Notification.Show(Notification.Icon.Generic, "System", "Data->"+data, Notification.StandardTimeout);
+			});*/
+		}
+	},1000)
+	
+
+	window.addEventListener('message', function(event) {
+		
+		//if (typeof event.data == "undefined"){event.data = {}; event.data.type="openPhone";} // Debug
+
+		if (event.data.type == "openPhone"){
+			openPhone();			
+		}else if (event.data.type == "openGUI"){
+			$('#texts').html('');
+			$('#mainWindow').css('display', 'flex')
+		}else if (event.data.type == "closeGUI"){
+			$('#mainWindow').css('display', 'none')
+		}else if (event.data.receivedMessage != undefined){
+			print(event.data.receivedMessage, false);
+		}		
+		
+		if (event.data.type == "phoneSetTime"){
+			//Notification.Show(Notification.Icon.Generic, "System", "Time received...", Notification.StandardTimeout);	
+			var hour = event.data.hour;
+			var minute = ('0'+event.data.minute).slice(-2);
+			var pm = "AM";
+			
+			if (hour > 12) {
+				hour = hour - 12;
+				pm = "PM";
+			}
+			$('#timeStatus').html(hour + ":" + minute + " " + pm);			
+		}
+		
+		
+		if (event.data.type == "playScanner"){
+			console.log("PLAY!");
+			sndScanner.play();	
+		}		
+		
+
+		
+		
+		
+	});
+});
+
+ $('#btnSell').click(function(){
+	print("Hey, you want some drugs?", true);
+	setTimeout(function(){
+		$.post('http://wild-trainer/Chat', JSON.stringify({message: "SELL"}));
+	}, 2000);
+ })
+ 
+ $('#btnClose').click(function(){
+	$.post('http://wild-trainer/NUIClose', JSON.stringify({}));
+ }) 
+ 
+</script>
+
+<script>
+//$(function() {window.dispatchEvent( new Event('message') );});
+//openPhone();
+</script>
+
+</body>
+</html>

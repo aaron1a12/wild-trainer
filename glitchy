@@ -1,0 +1,237 @@
+	-- Head Component Variation
+
+	changeHeadMenu:Clear()
+	
+	local headVariations = tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 0))
+	
+	changeHeadMenu.OnItemSelect = function(sender, item, index)
+		for i = 1, headVariations do
+			changeHeadMenu.Items[i]:SetRightBadge(BadgeStyle.None)
+		end
+		
+		item:SetRightBadge(BadgeStyle.Tick)
+		
+		if bIsSkinEditorOpen then
+			local newHeadVar = tonumber(index)-1
+			if WildPlayer.Skin.HeadVar ~= newHeadVar then
+				WildPlayer.Skin.HeadVar = newHeadVar
+				WildPlayer.Skin.HeadTexture = 0
+			else
+				-- Just try a new texture instead
+				WildPlayer.Skin.HeadTexture = WildPlayer.Skin.HeadTexture+1
+
+				--if not IsPedComponentVariationValid(GetPlayerPed(-1), 0, WildPlayer.Skin.HeadVar, WildPlayer.Skin.HeadTexture) then
+
+				if WildPlayer.Skin.HeadTexture > GetNumberOfPedTextureVariations(GetPlayerPed(-1), 0, WildPlayer.Skin.HeadVar)-1 then
+					WildPlayer.Skin.HeadTexture = 0
+				end
+			end
+		end
+		
+		LoadPlayerSkinComponents()
+	end	
+	
+	local itemIndexToSelect = 1
+	
+	for i = 1, headVariations do
+		local newItem = NativeUI.CreateItem("Variation "..i, "...")
+		changeHeadMenu:AddItem( newItem )
+
+		if WildPlayer.Skin.HeadVar+1 == i then
+			itemIndexToSelect = i
+		end
+		
+	end
+
+	changeHeadMenu:CurrentSelection(itemIndexToSelect-1)
+	changeHeadMenu:SelectItem()
+	
+	
+	-- Beard/Mask Component Variation
+
+	changeBeardMaskMenu:Clear()
+	
+	local beardMaskVariations = tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 1))
+	
+	changeBeardMaskMenu.OnItemSelect = function(sender, item, index)
+		for i = 1, beardMaskVariations do
+			changeBeardMaskMenu.Items[i]:SetRightBadge(BadgeStyle.None)
+		end
+		
+		item:SetRightBadge(BadgeStyle.Tick)
+
+		if bIsSkinEditorOpen then
+			local newBeardMaskVar = tonumber(index)-1
+			if WildPlayer.Skin.BeardMaskVar ~= newBeardMaskVar then
+				WildPlayer.Skin.BeardMaskVar = newBeardMaskVar
+				WildPlayer.Skin.BeardMaskTexture = 0
+			else
+				-- Just try a new texture instead
+				WildPlayer.Skin.BeardMaskTexture = WildPlayer.Skin.BeardMaskTexture+1
+
+				--if not IsPedComponentVariationValid(GetPlayerPed(-1), 0, WildPlayer.Skin.HeadVar, WildPlayer.Skin.HeadTexture) then
+				
+				if WildPlayer.Skin.BeardMaskTexture > GetNumberOfPedTextureVariations(GetPlayerPed(-1), 1, WildPlayer.Skin.BeardMaskVar)-1 then
+					WildPlayer.Skin.BeardMaskTexture = 0
+				end
+			end
+		end
+		
+		LoadPlayerSkinComponents()
+	end	
+	
+	local itemIndexToSelect = 1
+	
+	for i = 1, beardMaskVariations do
+		local newItem = NativeUI.CreateItem("Variation "..i, "...")
+		changeBeardMaskMenu:AddItem( newItem )
+
+		if WildPlayer.Skin.BeardMaskVar+1 == i then
+			itemIndexToSelect = i
+		end
+		
+	end
+
+	changeBeardMaskMenu:CurrentSelection(itemIndexToSelect-1)
+	changeBeardMaskMenu:SelectItem()	
+	
+	-- Hair/Hat Component Variation
+
+	changeHairMaskMenu:Clear()
+	
+	local hairHatVariations = tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 2))
+	
+	changeHairMaskMenu.OnItemSelect = function(sender, item, index)
+		for i = 1, hairHatVariations do
+			changeHairMaskMenu.Items[i]:SetRightBadge(BadgeStyle.None)
+		end
+		
+		item:SetRightBadge(BadgeStyle.Tick)
+		
+		if bIsSkinEditorOpen then
+			local newHairHatVar = tonumber(index)-1
+			if WildPlayer.Skin.HairHatVar ~= newHairHatVar then
+				WildPlayer.Skin.HairHatVar = newHairHatVar
+				WildPlayer.Skin.HairHatTexture = 0
+			else
+				-- Just try a new texture instead
+				WildPlayer.Skin.HairHatTexture = WildPlayer.Skin.HairHatTexture+1
+
+				--if not IsPedComponentVariationValid(GetPlayerPed(-1), 0, WildPlayer.Skin.HeadVar, WildPlayer.Skin.HeadTexture) then
+
+				if WildPlayer.Skin.HairHatTexture > GetNumberOfPedTextureVariations(GetPlayerPed(-1), 2, WildPlayer.Skin.HairHatVar)-1 then
+					WildPlayer.Skin.HairHatTexture = 0
+				end
+			end
+		end
+		
+		LoadPlayerSkinComponents()
+	end	
+	
+	local itemIndexToSelect = 1
+	
+	for i = 1, hairHatVariations do
+		local newItem = NativeUI.CreateItem("Variation "..i, "...")
+		changeHairMaskMenu:AddItem( newItem )
+
+		if WildPlayer.Skin.HairHatTexture+1 == i then
+			itemIndexToSelect = i
+		end
+		
+	end
+
+	changeHairMaskMenu:CurrentSelection(itemIndexToSelect-1)
+	changeHairMaskMenu:SelectItem()		
+	
+	-- Upper Body Component Variation
+
+	changeUpperBodyMenu:Clear()
+	
+	local upperBodyVariations = tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 3))
+	
+	changeUpperBodyMenu.OnItemSelect = function(sender, item, index)
+		for i = 1, upperBodyVariations do
+			changeUpperBodyMenu.Items[i]:SetRightBadge(BadgeStyle.None)
+		end
+		
+		item:SetRightBadge(BadgeStyle.Tick)
+		
+		if bIsSkinEditorOpen then
+			local newUpperBodyVar = tonumber(index)-1
+			if WildPlayer.Skin.UpperBodyVar ~= newUpperBodyVar then
+				WildPlayer.Skin.UpperBodyVar = newUpperBodyVar
+				WildPlayer.Skin.UpperBodyTexture = 0
+			else
+				-- Just try a new texture instead
+				WildPlayer.Skin.UpperBodyTexture = WildPlayer.Skin.UpperBodyTexture+1
+			
+				if WildPlayer.Skin.UpperBodyTexture > GetNumberOfPedTextureVariations(GetPlayerPed(-1), 3, WildPlayer.Skin.UpperBodyVar)-1 then
+					WildPlayer.Skin.UpperBodyTexture = 0
+				end
+			end
+		end
+		
+		LoadPlayerSkinComponents()
+	end	
+	
+	local itemIndexToSelect = 1
+	
+	for i = 1, upperBodyVariations do
+		local newItem = NativeUI.CreateItem("Variation "..i, "...")
+		changeUpperBodyMenu:AddItem( newItem )
+
+		if WildPlayer.Skin.UpperBodyVar+1 == i then
+			itemIndexToSelect = i
+		end
+		
+	end
+
+	changeUpperBodyMenu:CurrentSelection(itemIndexToSelect-1)
+	changeUpperBodyMenu:SelectItem()	
+	
+	
+	-- Lower Body Component Variation
+
+	changeLowerBodyMenu:Clear()
+	
+	local lowerBodyVariations = tonumber(GetNumberOfPedDrawableVariations(GetPlayerPed(-1), 4))
+	
+	changeLowerBodyMenu.OnItemSelect = function(sender, item, index)
+		for i = 1, lowerBodyVariations do
+			changeLowerBodyMenu.Items[i]:SetRightBadge(BadgeStyle.None)
+		end
+		
+		item:SetRightBadge(BadgeStyle.Tick)
+		
+		if bIsSkinEditorOpen then
+			local newLowerBodyVar = tonumber(index)-1
+			if WildPlayer.Skin.LowerBodyVar ~= newLowerBodyVar then
+				WildPlayer.Skin.LowerBodyVar = newLowerBodyVar
+				WildPlayer.Skin.LowerBodyTexture = 0
+			else
+				-- Just try a new texture instead
+				WildPlayer.Skin.LowerBodyTexture = WildPlayer.Skin.LowerBodyTexture+1
+			
+				if WildPlayer.Skin.LowerBodyTexture > GetNumberOfPedTextureVariations(GetPlayerPed(-1), 4, WildPlayer.Skin.LowerBodyVar)-1 then
+					WildPlayer.Skin.LowerBodyTexture = 0
+				end
+			end
+		end
+		
+		LoadPlayerSkinComponents()
+	end	
+	
+	local itemIndexToSelect = 1
+	
+	for i = 1, lowerBodyVariations do
+		local newItem = NativeUI.CreateItem("Variation "..i, "...")
+		changeLowerBodyMenu:AddItem( newItem )
+
+		if WildPlayer.Skin.LowerBodyVar+1 == i then
+			itemIndexToSelect = i
+		end
+		
+	end
+
+	changeLowerBodyMenu:CurrentSelection(itemIndexToSelect-1)
+	changeLowerBodyMenu:SelectItem()	

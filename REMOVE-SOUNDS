@@ -1,0 +1,10 @@
+function Global.HideMapObjectThisFrame(mapObjectHash)
+SetArtificialLightsState(state)
+StartAudioScene(“CHARACTER_CHANGE_IN_SKY_SCENE”) – this should disable city sounds or maybe not . i have not test it yet.
+
+
+        Citizen.InvokeNative(0x4B5CFC83122DF602)
+        HideMapObjectThisFrame(GetHashKey("hei_dt1_20_build2"))
+        HideMapObjectThisFrame(GetHashKey("dt1_20_dt1_emissive_dt1_20"))
+        Citizen.InvokeNative(0x3669F1B198DCAA4F)
+Ok, first and last lines are needed to disable occlusion. Without them city will disappear behind invisible walls. Second and third line are hiding exterior for speciefic building. It has to be made each frame when player is inside of apartments.

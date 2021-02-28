@@ -1,0 +1,6 @@
+Buckingham Maverick = $315,000
+Maibatsu Frogger = $1,325,000
+Nagasaki Buzzard = $245,000
+Nagasaki Attack Buzzard = $2,125,000
+Nagasaki Havok = $104,000
+Sea Sparrow = $750,000

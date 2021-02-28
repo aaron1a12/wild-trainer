@@ -1,0 +1,127 @@
+<html><head>
+<meta charset="UTF-8">
+<title>Title of the document</title>
+<script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+<script>
+	function print(msg, bIsPlayer) {
+		if(bIsPlayer)
+			$("#texts").append("<div class=\"bubble player\">"+msg+"</div>");
+		else
+			$("#texts").append("<div class=\"bubble\">"+msg+"</div>");
+	}
+</script>
+<style>
+* {font-family: 'Segoe UI'; color: #FFF;font-weight:bold;}
+
+
+.notification, .dialog {
+	background-color: rgba(36, 68, 72, 0.75);
+}
+
+
+.notification {
+    width: 300px;
+	border-radius: 12px; 
+    position: absolute;
+    right:10%;
+	height:100px;
+	top:10%;
+    transform: translateX(-50%);
+    padding: 10px;
+	display: flex;
+    flex-direction: column;
+}
+
+
+.dialog {
+    width: 300px;
+	border-radius: 12px; 
+    position: absolute;
+    right:10%;
+	height:400px;
+	bottom:10%;
+    transform: translateX(-50%);
+    padding: 10px;
+    flex-direction: column;
+}
+
+#mainWindow {display:none;}
+#skinEditor {}
+
+button {
+	background-color: #12292c;
+	border: 0px;
+	border-radius: 12px;
+	font-weight: normal;
+	padding: 10px;
+    margin-top:1px;
+	display:block;
+	width: 100%;
+}
+
+button:hover {
+	background-color: #11616b;
+}
+
+button:active {
+	background-color: #001e22;
+}
+
+.bubble {
+	border-radius: 12px;float:left;background-color: rgba(255,255,255, 0.2); padding:10px; color:#000; margin-bottom: 5px;
+}
+.player {float:right; background-color: rgba(255,255,255, 0.5); }
+</style>
+</head>
+
+<body>
+<div id="mainWindow" class="dialog">
+    <div id="texts" style="height:100%;overflow:hidden;">
+	</div>
+	
+	<div style="height:5px;"></div>
+	<button id="btnSell">Sell Drugs</button>
+	<button id="btnClose">Close Chat</button>
+</div>
+
+
+<!--<div id="skinEditor" class="dialog"></div>-->
+
+<!--<div class="notification"></div>-->
+
+
+<script type="text/javascript">
+
+
+
+$(function() {
+	
+	/* open the UI for user */
+	window.addEventListener('message', function(event) {
+
+		if (event.data.type == "openGUI"){
+			$('#texts').html('');
+			$('#mainWindow').css('display', 'flex')
+		}else if (event.data.type == "closeGUI"){
+			$('#mainWindow').css('display', 'none')
+		}else if (event.data.receivedMessage != undefined){
+			print(event.data.receivedMessage, false);
+		}		
+		
+	});
+});
+
+
+ $('#btnSell').click(function(){
+	print("Hey, you want some drugs?", true);
+	setTimeout(function(){
+		$.post('http://wild-trainer/Chat', JSON.stringify({message: "SELL"}));
+	}, 2000);
+ })
+ 
+ $('#btnClose').click(function(){
+	$.post('http://wild-trainer/NUIClose', JSON.stringify({}));
+ }) 
+</script>
+
+</body></html>
