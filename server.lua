@@ -423,8 +423,7 @@ RegisterServerEvent("wild-trainer:registerVehicle")
 
 
 AddEventHandler("wild-trainer:unregisterVehicle", function(plateNumber)
-	for playerID, vehicleTable in pairs(playerVehicles) do
-	
+	for playerID, vehicleTable in pairs(playerGarages) do
 		for plate, vehicleInfo in pairs(vehicleTable) do
 			if plate == plateNumber then
 				playerVehicles[playerID][plateNumber] = nil
@@ -432,9 +431,8 @@ AddEventHandler("wild-trainer:unregisterVehicle", function(plateNumber)
 				
 				SavePlayerGarage(playerID)
 			end
-		end
-
-	end	
+		end		
+	end
 end)
 RegisterServerEvent("wild-trainer:unregisterVehicle")
 

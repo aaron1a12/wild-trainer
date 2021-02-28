@@ -46,6 +46,16 @@ function GetVehicleName( modelName )
     return modelName
 end
 
+function GetAircraftSellPrice( modelName )
+    for _,aircraftModel in ipairs(gtaAircraft) do
+        if modelName == aircraftModel[1] then
+            return round((aircraftModel[3]/100)*98)
+        end
+    end
+
+    return 1
+end
+
 _aircraftPool = NativeUI.CreatePool()
 aircraftMenu = NativeUI.CreateMenu("Devon Weston", "~b~Buy Aircraft here!")
 
@@ -110,6 +120,10 @@ function RefreshOwnedAircraftMenu()
             local spawnBtn = UIMenuColouredItem.New("Spawn Now", "Current model", {R = 0, G = 255, B = 255, A = 255}, {R = 0, G = 255, B = 255, A = 255})
             newSub:AddItem(spawnBtn)
 
+            local sellBtn = NativeUI.CreateItem("Sell", '') 
+            sellBtn:RightLabel("$"..comma_value(tonumber(GetAircraftSellPrice(aircraft.model))), {R = 100, G = 200, B = 255, A = 255},  {R = 0, G = 60, B = 128, A = 255})
+            newSub:AddItem(sellBtn)
+
             newSub.OnItemSelect = function(sender, item, index)
                 if item == spawnBtn then
 
@@ -119,6 +133,20 @@ function RefreshOwnedAircraftMenu()
 
                     SpawnAircraft( acPlate, aircraft )
 
+                elseif item == sellBtn then
+                    newSub:GoBack()
+                    subMenu_ownedAircraft:GoBack()
+                    aircraftMenu:GoBack()
+                                        
+                    TriggerServerEvent('wild-trainer:unregisterVehicle', acPlate)
+                    TriggerServerEvent('wild-trainer:addMoney', GetAircraftSellPrice(aircraft.model))
+
+                    if activeAircraft~=nil and DoesEntityExist(activeAircraft.aircraft) then
+                        SetEntityAsMissionEntity(activeAircraft.aircraft, true, true)
+                        DeleteVehicle(activeAircraft.aircraft)
+                        DeleteEntity(activeAircraft.aircraft)
+                        RemoveBlip(activeAircraft.blip)
+                    end                    
                 end
             end
         end
